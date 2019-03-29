@@ -1,0 +1,128 @@
+{% extends "app_base.html" %}
+{% block content %}
+<h3> Search </h3>
+
+<form method="POST" action="search" role="form" style="max-width:400px; width:100%">
+	{% if message is defined %}
+	<div class="alert alert-warning" role="alert">{{ message }}</div>
+	{% endif %}
+	<div class="alert alert-info">Anything not input will not be taken into account</div>
+	<div class="form-group">
+	  <label for="itemID">Item ID</label>
+	  <input type="text" class="form-control" id="itemID" name="itemID" />
+	</div>
+	<div class="form-group">
+	  <label for="category">Category</label>
+	  <input type="text" name="category" class="form-control" id="category" />
+	</div>
+	<div class="form-group">
+	  <label for="description">Description</label>
+	  <input type="text" name="description" class="form-control" id="description" />
+	</div>
+	<div class="form-group">
+	  <label for="minPrice">Min Price</label>
+	  <input type="text" name="minPrice" class="form-control" id="minPrice" />
+	</div>
+	<div class="form-group">
+	  <label for="maxPrice">Max Price</label>
+	  <input type="text" name="maxPrice" class="form-control" id="maxPrice" />
+	</div>
+	<div class="form-group">
+		<label for="status">Status &nbsp;&nbsp;</label>
+		<div class="radio-inline"><label><input type="radio" name="status" value="open">Open</label></div>
+		<div class="radio-inline"><label><input type="radio" name="status" value="close">Close</label></div>
+		<div class="radio-inline"><label><input type="radio" name="status" value="notStarted">Not Started</label></div>
+		<div class="radio-inline"><label><input type="radio" name="status" value="all" checked>All</label></div>
+	</div>
+	<div><input type="submit" value="Start Searching!" class="btn btn-primary" /></div>
+</form>
+
+<h3>Results</h3>
+{% if search_results %}
+{% for result in search_results %}
+	<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+		  	<div class="panel-heading">
+		    	<h3 class="panel-title">Auction Details</h3>
+		  	</div>
+		  	<div class="panel-body">
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Item ID</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["ItemID"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Start Time</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Started"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>End Time</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Ends"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Number of Bids</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Number_of_Bids"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>First Bid</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["First_Bid"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Buy Price</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Buy_Price"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Currently</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Currently"]|e }}</span>
+		 			</div>
+		 		</div>
+		 		<div class="row">
+		 			<div class="col-sm-3">
+						<span><strong>Seller</span></strong>
+		 			</div>
+		 			<div class="col-sm-6">
+						<span>{{ result["Seller_UserID"]|e }}</span>
+		 			</div>
+		 		</div>
+			</div>
+			<div class="panel-footer">
+				<a href="/auction?itemID={{ result['ItemID'] }}" class="btn btn-secondary">
+					More Info
+				</a>
+			</div>
+		</div>
+	</div>
+	</div>
+{% endfor %}
+{% else %}
+<div>No results</div>
+{% endif %}
+
+{% endblock %}

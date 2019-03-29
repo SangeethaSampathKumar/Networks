@@ -1,0 +1,62 @@
+{% extends "app_base.html" %}
+{% block content %}
+
+<h3> Auction Details </h3>
+
+{% if item %}
+<h4>Item Details</h4>
+{% if categories %}
+<p>
+    <strong><span>Categories: </span></strong>
+{% for category in categories %}
+<span class="label label-default">{{ category["Category"] }}</span>
+{% endfor %}
+</p>
+{% endif %}
+
+{% for key in item %}
+<div class="row">
+    <div class="col-sm-3">
+        <span><strong>{{ key|e }}</span></strong>
+    </div>
+    <div class="col-sm-6">
+        <span>{{ item[key]|e }}</span>
+    </div>
+</div>
+{% endfor %}
+
+{% if bids %}
+<h4>Bid Details</h4>
+{% for bid in bids %}
+    {% for key in bid %}
+    <div class="row">
+        <div class="col-sm-3">
+            <span><strong>{{ key|e }}</span></strong>
+        </div>
+        <div class="col-sm-6">
+            <span>{{ bid[key]|e }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    <hr />
+{% endfor %}
+{% endif %}
+
+{% else %}
+<div class="alert alert-warning">No such item</div>
+{% endif %}
+
+<h4> Auction Status</h4>
+{% if auction_status == 2 %}
+<h3> Auction is OPEN </h3>
+{% else %}
+<div class="alert alert-warning">Auction is CLOSED</div>
+{% if winner %}
+<h4>Winner Name</h4>
+    <span><strong>{{ winner }}</strong></span>
+{% else %}
+<div class="alert alert-warning">No Winner Exists</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}
